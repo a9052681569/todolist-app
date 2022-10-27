@@ -19,10 +19,40 @@ const getTodoItemEl = (text) => {
 	return el;
 }
 
+const deleteHandler = (event) => {
+	const target = event.target;
+
+	const currListItemEl = target.closest('.list__item')
+
+	currListItemEl.remove();
+}
+const duplicateHandler = (event) => {
+	const target = event.target;
+	const currListItemEl = target.closest('.list__item');
+
+	const duplicatedEl = currListItemEl.cloneNode(true);
+
+	setEventListeners(duplicatedEl);
+
+	currListItemEl.after(duplicatedEl);
+}
+
+const setEventListeners = (el) => {
+	const deleteBtn = el.querySelector('.list__item-btn_delete');
+
+	deleteBtn.addEventListener('click', deleteHandler)
+
+	const duplicateBtn = el.querySelector('.list__item-btn_duplicate');
+
+	duplicateBtn.addEventListener('click', duplicateHandler)
+}
+
 const renderItem = (text) => {
 	const el = getTodoItemEl(text);
 
-	container.append(el)
+	setEventListeners(el);
+
+	container.prepend(el);
 }
 
 items.forEach(renderItem)
