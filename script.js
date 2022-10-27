@@ -2,31 +2,36 @@ const items = [
 	"Сделать проектную работу",
 	"Полить цветы",
 	"Пройти туториал по Реакту",
-	"Сделать фронт для своего проекта",
-	"Сделать фронт для своего проекта",
-	"Сделать фронт для своего проекта",
-	"Сделать фронт для своего проекта",
+	"Сделать фронт для своего проекта"
 ];
 
 const container = document.querySelector('.list');
+const todoForm = document.querySelector('.form');
+const itemTemplate = document.querySelector('.item_template');
 
-const getTodoItemHtml = (text) => {
-	return `
-	<li class="list__item">
-		<span class="item__text">${text}</span>
-		<img
-			class="list__item-btn list__item-btn_duplicate"
-			src="images/Duplicate.png"
-			alt="Копировать"
-		/>
-		<img class="list__item-btn list__item-btn_delete" src="images/Delete.png" alt="Удалить" />
-	</li>
-`
+const getTodoItemEl = (text) => {
+	const el = itemTemplate.content.cloneNode(true).children[0];
+
+	const textEl = el.querySelector('.item__text');
+
+	textEl.textContent = text;
+
+	return el;
 }
 
-items.forEach((item) => {
-	const elString = getTodoItemHtml(item);
+const renderItem = (text) => {
+	const el = getTodoItemEl(text);
 
-	container.insertAdjacentHTML('afterbegin', elString)
+	container.append(el)
+}
+
+items.forEach(renderItem)
+
+todoForm.addEventListener('submit', (event) => {
+	event.preventDefault();
+
+	const text = document.querySelector('.form__input').value;
+
+	renderItem(text);
 })
 
